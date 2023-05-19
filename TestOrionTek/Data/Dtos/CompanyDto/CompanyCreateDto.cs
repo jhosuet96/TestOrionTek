@@ -1,13 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace TestOrionTek.Data.Dtos.CompanyDto
 {
     public class CompanyCreateDto
     {
-        [Required]
-        public int IdCompany { get; set; }
+       
         [Required]
         public string? NameCompany { get; set; }
-        public bool status { get; set; }
+
+        [JsonIgnore]
+        public bool status { get; set; } = true;
     }
 }
