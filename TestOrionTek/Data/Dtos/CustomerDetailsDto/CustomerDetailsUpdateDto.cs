@@ -2,7 +2,7 @@
 
 namespace TestOrionTek.Data.Dtos.CustomerDetailsDto
 {
-    public class CustomerDetailsCreateDto
+    public class CustomerDetailsUpdateDto
     {
 
         [Required]

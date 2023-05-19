@@ -1,17 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TestOrionTek.Data.Models
+namespace TestOrionTek.Data.Dtos.CompanyDto
 {
-    public class Company
+    public class CompanyCreateDto
     {
-       
-        [Key]
+        [Required]
         public int IdCompany { get; set; }
-
         [Required]
         public string? NameCompany { get; set; }
         public bool status { get; set; }
-
-        public virtual ICollection<Customer>? Customers { get; set; }
     }
 }

@@ -16,12 +16,13 @@ namespace TestOrionTek.Service
         {
             try
             {
-                _customers = _repo.Customer.GetAll().Select(c => new Customer
+                _customers = _repo.Customer.GetAll().Where(x => x.status == true).Select(c => new Customer
                 {
                     IdCustomer = c.IdCustomer,
                     Name = c.Name,
                     LastName = c.LastName,
                     status = c.status,
+                    IdCompany = c.IdCompany,
                     CustomerDetails = c.CustomerDetails
                 });
                 return _customers;
@@ -55,9 +56,29 @@ namespace TestOrionTek.Service
             }
             catch (Exception)
             {
+                throw;
+            }
+        }
+
+        public IQueryable<Company> getAllCompany()
+        {
+            try
+            {
+                var company = _repo.Company.GetAll().Where(x => x.status == true).Select(c => new Company
+                {
+                    IdCompany = c.IdCompany,
+                    NameCompany = c.NameCompany,
+                    status = c.status,
+                    Customers = c.Customers
+                });
+                return company;
+            }
+            catch (Exception)
+            {
 
                 throw;
             }
         }
+
     }
 }

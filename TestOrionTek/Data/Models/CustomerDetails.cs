@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace TestOrionTek.Data.Models
 {
@@ -11,8 +12,10 @@ namespace TestOrionTek.Data.Models
 
        
         public int IdCustomer { get; set; }
-        
+
+
         [ForeignKey(nameof(IdCustomer))]
+        [JsonIgnore]
         public virtual Customer? Customers { get; set; }
 
         [Required]

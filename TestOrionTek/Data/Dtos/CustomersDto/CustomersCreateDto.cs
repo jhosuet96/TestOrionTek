@@ -16,6 +16,5 @@ namespace TestOrionTek.Data.Dtos.CustomersDto
         [Required]
         public int IdCompany { get; set; }
 
-        public ICollection<CustomerDetailsCreateDto> CustomerDetails { get; set; }
     }
 }

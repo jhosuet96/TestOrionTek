@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using TestOrionTek.Data.Dtos.CustomersDto;
+using TestOrionTek.Data.Dtos.CustomerDetailsDto;
 using TestOrionTek.Data.GenericRepository;
 using TestOrionTek.Data.Models;
 using TestOrionTek.Service;
@@ -10,32 +9,29 @@ namespace TestOrionTek.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CustomerController : Controller
+    public class CustomerDetailsController : Controller
     {
         private readonly IRepositoryWrapper _repository;
         private readonly IMapper mapper;
-
-        private Utility utility;
-        public CustomerController(IRepositoryWrapper repository, IMapper mapper)
+        public CustomerDetailsController(IRepositoryWrapper repository, IMapper mapper)
         {
-            _repository = repository;  
+            _repository = repository;
             this.mapper = mapper;
-            utility = new Utility(repository);
         }
 
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
-            var customer = utility.getAllCustomers();
-            return Ok(customer);
+            var customerDetails = _repository.CustomerDetails.GetAll().Where(x => x.status == true);
+            return Ok(customerDetails);
         }
 
         [HttpGet("GetById")]
         public IActionResult GetById([FromQuery] int id)
         {
-            if (id>0)
+            if (id > 0)
             {
-                var customer = utility.GetById(id);
+                var customer = _repository.CustomerDetails.GetById(id);
                 return Ok(customer);
             }
             else
@@ -44,43 +40,41 @@ namespace TestOrionTek.Controllers
             }
         }
 
-        [HttpPost("AddCustomer")]
-        public IActionResult AddCustomer([FromBody] CustomersCreateDto customerDto)
+        [HttpPost("AddCustomerDetails")]
+        public IActionResult AddCustomerDetails([FromBody] CustomerDetailsCreateDto customerDto)
         {
             if (customerDto == null)
             {
                 return NotFound();
             }
             try
-            {   
-                var custDto = mapper.Map<Customer>(customerDto);
-                _repository.Customer.Add(custDto);
-                _repository.Save();
+            {
+                var custDto = mapper.Map<CustomerDetails>(customerDto);
+                _repository.CustomerDetails.Add(custDto);
+                _repository.Save();             
                 return Ok(new
                 {
                     message = "Registro creado EXITOSAMENTE.!"
                 });
-
             }
             catch (Exception)
             {
-
-                 return NotFound();
-            }           
+                return NotFound();
+            }
         }
 
         [HttpPatch]
-        [Route("UpdateCustomer")]
-        public IActionResult UpdateCustomer(CustomersUpdateDto customer)
+        [Route("UpdateCustomerDetails")]
+        public IActionResult UpdateCustomerDetails(CustomerDetailsUpdateDto customer)
         {
             try
             {
                 if (customer != null)
                 {
-                    var custDto = mapper.Map<Customer>(customer);
-                    _repository.Customer.Update(custDto);
+                    var custDto = mapper.Map<CustomerDetails>(customer);
+                    _repository.CustomerDetails.Update(custDto);
                     _repository.Save();
-                    return Ok(custDto); 
+                    return Ok(custDto);
                 }
                 return NotFound();
             }
@@ -92,17 +86,17 @@ namespace TestOrionTek.Controllers
 
 
         [HttpDelete]
-        [Route("DeleteCustomer/{id:int}")]
-        public IActionResult DeleteCustomer(int id)
+        [Route("DeleteCustomerDetails/{id:int}")]
+        public IActionResult DeleteCustomerDetails(int id)
         {
             if (id > 0)
             {
-                var customer = _repository.Customer.GetById(id);
+                var customer = _repository.CustomerDetails.GetById(id);
                 if (customer.status == true)
                 {
-                    customer.status =false ;
+                    customer.status = false;
                 }
-                _repository.Customer.Update(customer);
+                _repository.CustomerDetails.Update(customer);
                 _repository.Save();
                 return Ok(customer);
             }
