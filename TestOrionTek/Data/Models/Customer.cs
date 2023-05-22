@@ -15,6 +15,7 @@ namespace TestOrionTek.Data.Models
         [Required]
         public string? LastName { get; set; }
         public bool status { get; set; }
+        [Required]
         public int IdCompany { get; set; }
 
         [JsonIgnore]
