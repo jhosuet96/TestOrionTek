@@ -70,7 +70,7 @@ namespace TestOrionTek.Service
                     NameCompany = c.NameCompany,
                     status = c.status,
                     Customers = c.Customers
-                });
+                }).OrderBy(x => x.NameCompany);
                 return company;
             }
             catch (Exception)

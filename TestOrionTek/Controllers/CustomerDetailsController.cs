@@ -22,8 +22,22 @@ namespace TestOrionTek.Controllers
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
-            var customerDetails = _repository.CustomerDetails.GetAll().Where(x => x.status == true);
+            var customerDetails = _repository.CustomerDetails.GetAll().Where(x => x.status == true).OrderBy(x => x.Customers.Name);
             return Ok(customerDetails);
+        }
+
+        [HttpGet("GetByIdList")]
+        public IActionResult GetByIdList([FromQuery] int id)
+        {
+            if (id > 0)
+            {
+                var customer = _repository.CustomerDetails.FindByCondition(x => x.IdCustomer == id);
+                return Ok(customer);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet("GetById")]
